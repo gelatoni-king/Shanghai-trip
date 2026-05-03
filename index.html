@@ -66,7 +66,7 @@ body {
     max-width: 450px;
     margin: 0 auto;
     min-height: 100vh;
-    padding-bottom: 100px;
+    padding-bottom: 120px;
 }
 
 .top-nav {
@@ -87,45 +87,54 @@ body {
     color: var(--accent-peach);
 }
 
-.hero {
-    padding: 40px 25px;
+/* --- Forecast Ribbon --- */
+.forecast-ribbon {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding: 15px 20px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.forecast-ribbon::-webkit-scrollbar { display: none; }
+.forecast-tile {
+    flex: 0 0 85px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 12px 5px;
     text-align: center;
-    background: linear-gradient(135deg, var(--primary-pink), var(--primary-blue));
-    border-radius: 0 0 40px 40px;
-    margin-bottom: 30px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: 0.3s;
+}
+.forecast-tile:active { transform: scale(0.95); }
+.forecast-tile span {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    opacity: 0.7;
+}
+.forecast-tile .temp {
+    font-size: 0.8rem;
+    margin-top: 5px;
 }
 
-.hero h1 { margin: 0; font-size: 1.8rem; }
-.hero p { margin: 10px 0; opacity: 0.8; font-weight: 500; }
-
-.progress-container {
-    width: 80%;
-    background: rgba(255,255,255,0.3);
-    height: 8px;
-    border-radius: 10px;
-    margin: 15px auto;
-    overflow: hidden;
-}
-
-.progress-bar {
-    height: 100%;
-    background: white;
-    width: 0%;
-    transition: 1s;
-}
-
+/* --- Boarding Pass --- */
 .ticket-slider {
     padding: 0 20px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     perspective: 1000px;
 }
 
 .ticket-container {
     position: relative;
     width: 100%;
-    height: 205px;
+    min-height: 230px;
     transition: transform 0.6s;
     transform-style: preserve-3d;
+    cursor: pointer;
 }
 
 .ticket-container.flipped { transform: rotateY(180deg); }
@@ -133,23 +142,15 @@ body {
 .ticket-side {
     position: absolute;
     width: 100%;
-    height: 100%;
+    min-height: 230px;
     backface-visibility: hidden;
     background: white;
-    border-radius: 15px;
+    border-radius: 18px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     box-shadow: var(--card-shadow);
     border: 1px solid #eee;
-}
-
-[data-theme='dark'] .ticket-side,
-[data-theme='dark'] .card,
-[data-theme='dark'] .t-card,
-[data-theme='dark'] .bento-item,
-[data-theme='dark'] .card-back {
-    background: #2A2A2A;
 }
 
 .ticket-back { transform: rotateY(180deg); }
@@ -167,11 +168,11 @@ body {
 .ticket-header {
     background: var(--accent-peach);
     color: white;
-    padding: 8px 15px;
+    padding: 10px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 700;
 }
 
@@ -191,55 +192,83 @@ body {
     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
 }
 
+.ticket-body {
+    padding: 18px 15px 12px;
+    flex: 1;
+}
+
+.airport-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.airport-code {
+    font-size: 2.2rem;
+    margin: 0;
+    line-height: 1;
+}
+
+.airport-name {
+    font-size: 0.78rem;
+}
+
+.flight-code {
+    text-align: center;
+    color: var(--accent-peach);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    padding-top: 6px;
+}
+
 .journey-line {
     position: relative;
-    height: 35px;
-    margin: 10px 0;
+    height: 36px;
+    margin: 14px 0 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 30px;
+    padding: 0 42px;
 }
 
 .journey-line::before {
     content: '';
     position: absolute;
-    left: 50px;
-    right: 50px;
+    left: 58px;
+    right: 58px;
     height: 2px;
     border-top: 2px dashed #ddd;
     top: 50%;
 }
 
-.flight-note {
-    font-size: 0.72rem;
-    color: #777;
+.journey-line span {
+    z-index: 2;
+}
+
+.flight-time-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 0.82rem;
     line-height: 1.4;
+}
+
+.flight-note {
+    font-size: 0.7rem;
+    color: #777;
+    line-height: 1.35;
     padding: 0 15px 8px;
+    white-space: normal;
 }
 
 .baggage-allowance {
     font-family: 'Caveat', cursive;
     font-size: 1.05rem;
     color: #888;
-    padding: 0 15px;
+    padding: 0 15px 12px;
 }
 
-.card {
-    background: white;
-    border-radius: var(--radius-xl);
-    padding: 20px;
-    margin: 0 20px 15px;
-    box-shadow: var(--card-shadow);
-    transition: 0.3s;
-    border: 2px solid transparent;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary-pink);
-}
-
+/* --- Bento Box --- */
 .bento-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -247,7 +276,6 @@ body {
     padding: 0 20px;
     margin-bottom: 30px;
 }
-
 .bento-item {
     background: white;
     border-radius: var(--radius-lg);
@@ -256,19 +284,16 @@ body {
     position: relative;
     overflow: hidden;
 }
-
 .bento-main {
     grid-column: span 2;
-    height: 180px;
+    height: 160px;
     padding: 0;
 }
-
 .bento-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
 .check-in-overlay {
     position: absolute;
     inset: 0;
@@ -283,125 +308,159 @@ body {
     text-align: center;
     padding: 15px;
 }
-
 .bento-main:active .check-in-overlay,
 .bento-main:hover .check-in-overlay {
     opacity: 1;
 }
-
 .metro-compass {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     border: 4px solid var(--primary-blue);
     border-radius: 50%;
-    margin: 0 auto 10px;
+    margin: 0 auto 8px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: 0.7rem;
 }
-
 .convenience-carousel {
     display: flex;
     overflow-x: auto;
-    gap: 10px;
+    gap: 8px;
     padding-bottom: 5px;
     scrollbar-width: none;
 }
-
 .store-icon {
-    flex: 0 0 50px;
-    height: 50px;
+    flex: 0 0 45px;
+    height: 45px;
     background: #f5f5f5;
-    border-radius: 12px;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
-.timeline {
-    position: relative;
-    padding: 20px;
-}
-
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 40px;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: var(--primary-pink);
-    opacity: 0.5;
-}
-
-.t-item {
-    position: relative;
+/* --- Disney Battle Plan --- */
+.priority-wave {
     margin-bottom: 25px;
-    padding-left: 50px;
+    padding: 0 20px;
 }
-
-.t-dot {
-    position: absolute;
-    left: 13px;
-    top: 0;
-    width: 15px;
-    height: 15px;
-    background: var(--accent-peach);
-    border: 3px solid white;
-    border-radius: 50%;
-    z-index: 2;
-}
-
-.t-time {
-    font-size: 0.85rem;
+.wave-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: var(--accent-peach);
-    margin-bottom: 5px;
+    color: white;
+    margin-bottom: 12px;
 }
-
-.t-card {
+.wave-early { background: #FF9AA2; }
+.wave-chill { background: #B2E2F2; }
+.wave-night { background: #6A0572; }
+.ride-card {
     background: white;
-    border-radius: var(--radius-lg);
+    border-radius: 20px;
     padding: 15px;
+    margin-bottom: 12px;
     box-shadow: var(--card-shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.comparison-badge {
+    font-size: 0.65rem;
+    background: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-top: 5px;
+    color: #777;
+    display: block;
+}
+.vibe-meter { font-size: 1.2rem; }
+
+/* --- Munch & Magic Radar --- */
+.hungry-btn {
+    background: var(--accent-peach);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: 700;
+    width: 100%;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(255, 181, 167, 0.4);
     cursor: pointer;
 }
-
-.t-detail {
-    max-height: 0;
-    overflow: hidden;
-    transition: 0.4s ease-out;
-    font-size: 0.9rem;
-    color: #777;
+.taste-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
-
-.t-item.open .t-detail {
-    max-height: 360px;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px dashed #eee;
+.snack-card {
+    background: white;
+    border-radius: 18px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
 }
-
-.btn-gmaps {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 15px;
-    background: var(--primary-blue);
-    color: #4A4A4A;
+.snack-card img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
     border-radius: 12px;
-    text-decoration: none;
-    font-size: 0.8rem;
+    margin-bottom: 8px;
+}
+.safe-stamp {
+    color: #4CAF50;
+    font-size: 0.7rem;
     font-weight: 700;
-    margin-top: 10px;
+    display: block;
+    margin-top: 4px;
 }
 
+/* --- Haul & Hype Stack --- */
+.polaroid-stack {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 20px;
+    scrollbar-width: none;
+}
+.polaroid {
+    flex: 0 0 150px;
+    background: white;
+    padding: 10px 10px 30px 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transform: rotate(-2deg);
+    transition: 0.3s;
+}
+.polaroid:nth-child(even) { transform: rotate(3deg); }
+.polaroid img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+.polaroid span {
+    font-family: 'Caveat', cursive;
+    font-size: 0.9rem;
+    display: block;
+    margin-top: 10px;
+}
+.bag-indicator {
+    font-size: 0.65rem;
+    background: var(--primary-blue);
+    padding: 2px 6px;
+    border-radius: 5px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+/* --- Foodie Lookbook --- */
 .lookbook-container {
     padding: 0 20px;
 }
-
 .parallax-card {
     position: relative;
     height: 250px;
@@ -410,7 +469,6 @@ body {
     overflow: hidden;
     box-shadow: var(--card-shadow);
 }
-
 .parallax-bg {
     position: absolute;
     top: 0;
@@ -421,7 +479,6 @@ body {
     background-position: center;
     transition: transform 0.1s ease-out;
 }
-
 .card-inner {
     position: relative;
     width: 100%;
@@ -430,9 +487,7 @@ body {
     transform-style: preserve-3d;
     cursor: pointer;
 }
-
 .card-inner.is-flipped { transform: rotateY(180deg); }
-
 .card-front,
 .card-back {
     position: absolute;
@@ -440,7 +495,6 @@ body {
     height: 100%;
     backface-visibility: hidden;
 }
-
 .card-back {
     background: white;
     transform: rotateY(180deg);
@@ -449,7 +503,6 @@ body {
     flex-direction: column;
     justify-content: center;
 }
-
 .safe-seal {
     position: absolute;
     top: 15px;
@@ -466,23 +519,145 @@ body {
     z-index: 10;
 }
 
+/* --- Original & Shared --- */
+.view {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+.view.active { display: block; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.hero {
+    padding: 40px 25px;
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary-pink), var(--primary-blue));
+    border-radius: 0 0 40px 40px;
+    margin-bottom: 25px;
+}
+.hero h1 { margin: 0; font-size: 1.8rem; }
+.hero p { margin: 10px 0; opacity: 0.8; font-weight: 500; }
+.card {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: 20px;
+    margin: 0 20px 15px;
+    box-shadow: var(--card-shadow);
+    transition: 0.3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.bottom-bar {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    height: 70px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+.nav-item {
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: 0.3s;
+}
+.nav-item.active {
+    opacity: 1;
+    transform: translateY(-5px);
+}
 .texture-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 5px;
+    margin-top: 8px;
+}
+.pill-tag {
+    padding: 3px 10px;
+    background: rgba(255,181,167,0.1);
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent-peach);
+}
+.timeline {
+    position: relative;
+    padding: 20px;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 40px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--primary-pink);
+    opacity: 0.5;
+}
+.t-item {
+    position: relative;
+    margin-bottom: 25px;
+    padding-left: 50px;
+}
+.t-dot {
+    position: absolute;
+    left: 13px;
+    top: 0;
+    width: 15px;
+    height: 15px;
+    background: var(--accent-peach);
+    border: 3px solid white;
+    border-radius: 50%;
+    z-index: 2;
+}
+.t-time {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent-peach);
+    margin-bottom: 5px;
+}
+.t-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 15px;
+    box-shadow: var(--card-shadow);
+    cursor: pointer;
+}
+.t-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.4s ease-out;
+    font-size: 0.9rem;
+    color: #777;
+}
+.t-item.open .t-detail {
+    max-height: 420px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #eee;
+}
+.btn-gmaps {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 15px;
+    background: var(--primary-blue);
+    color: #4A4A4A;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 700;
     margin-top: 10px;
 }
-
-.pill-tag {
-    padding: 4px 12px;
-    background: rgba(255,255,255,0.8);
-    backdrop-filter: blur(5px);
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #4A4A4A;
-}
-
 .floating-btn {
     position: fixed;
     right: 25px;
@@ -501,48 +676,15 @@ body {
     cursor: pointer;
 }
 
-.bottom-bar {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    height: 70px;
-    border-radius: 30px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-    z-index: 1000;
-}
-
-.nav-item {
-    border: none;
-    background: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    opacity: 0.4;
-    transition: 0.3s;
-}
-
-.nav-item.active {
-    opacity: 1;
-    transform: translateY(-5px);
-}
-
-.view {
-    display: none;
-    animation: fadeIn 0.4s ease;
-}
-
-.view.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+[data-theme='dark'] .card,
+[data-theme='dark'] .t-card,
+[data-theme='dark'] .bento-item,
+[data-theme='dark'] .ticket-side,
+[data-theme='dark'] .ride-card,
+[data-theme='dark'] .snack-card,
+[data-theme='dark'] .polaroid,
+[data-theme='dark'] .card-back {
+    background: #2A2A2A;
 }
 </style>
 </head>
@@ -562,13 +704,23 @@ body {
     <main id="main-view">
         <section id="view-home" class="view active">
             <div class="hero">
-                <p>Hello, Boyfriend! 🐾</p>
-                <h1>雲端漫步行程表</h1>
+                <p>Hello, my lovely Oppa! 🐾</p>
+                <h1>白桃主場行程表</h1>
                 <p>5月21日 - 5月27日</p>
                 <div class="progress-container">
                     <div class="progress-bar" id="main-progress"></div>
                 </div>
-                <small>目前解鎖進度：<span id="progress-text">0</span>%</small>
+                <small>目前的旅行進度：<span id="progress-text">0</span>%</small>
+            </div>
+
+            <div class="forecast-ribbon">
+                <div class="forecast-tile"><span>5/21</span>☁️<div class="temp">TBC</div></div>
+                <div class="forecast-tile"><span>5/22</span>📷<div class="temp">Citywalk</div></div>
+                <div class="forecast-tile"><span>5/23</span>⚡<div class="temp">Pokémon</div></div>
+                <div class="forecast-tile"><span>5/24</span>🌸<div class="temp">Banyan</div></div>
+                <div class="forecast-tile"><span>5/25</span>🏰<div class="temp">Disney</div></div>
+                <div class="forecast-tile"><span>5/26</span>🧳<div class="temp">Pack</div></div>
+                <div class="forecast-tile"><span>5/27</span>🛫<div class="temp">Return</div></div>
             </div>
 
             <div class="ticket-slider" onclick="flipTicket()">
@@ -578,20 +730,29 @@ body {
                             <div><span class="pulse-dot"></span>OUTBOUND</div>
                             <div>CATHAY PACIFIC</div>
                         </div>
-                        <div style="padding: 15px; flex: 1;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div><h1 style="margin:0;">HKG</h1><small>HONG KONG</small></div>
-                                <div style="text-align: center; color: var(--accent-peach);"><small>CX380<br>B777-300</small></div>
-                                <div style="text-align: right;"><h1 style="margin:0;">PVG</h1><small>SHANGHAI</small></div>
+                        <div class="ticket-body">
+                            <div class="airport-row">
+                                <div>
+                                    <h1 class="airport-code">HKG</h1>
+                                    <small class="airport-name">HONG KONG</small>
+                                </div>
+                                <div class="flight-code">
+                                    CX380<br>
+                                    B777-300
+                                </div>
+                                <div style="text-align:right;">
+                                    <h1 class="airport-code">PVG</h1>
+                                    <small class="airport-name">SHANGHAI</small>
+                                </div>
                             </div>
                             <div class="journey-line">
-                                <span style="font-size: 1.2rem;">🏙️</span>
-                                <span style="font-size: 1.2rem;">🛫</span>
-                                <span style="font-size: 1.2rem;">🌆</span>
+                                <span>🏙️</span>
+                                <span>🛫</span>
+                                <span>🌆</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.85rem;">
-                                <span>21 MAY | 15:00</span>
-                                <span>Arrive 17:50</span>
+                            <div class="flight-time-row">
+                                <span>21 MAY<br>15:00</span>
+                                <span style="text-align:right;">Arrive<br>17:50</span>
                             </div>
                         </div>
                         <div class="perforated-edge"></div>
@@ -601,23 +762,32 @@ body {
 
                     <div class="ticket-side ticket-back">
                         <div class="ticket-header" style="background: var(--primary-blue);">
-                            <div style="color: #4A4A4A;"><span class="pulse-dot"></span>RETURN</div>
-                            <div style="color: #4A4A4A;">CATHAY PACIFIC</div>
+                            <div style="color:#4A4A4A;"><span class="pulse-dot"></span>RETURN</div>
+                            <div style="color:#4A4A4A;">CATHAY PACIFIC</div>
                         </div>
-                        <div style="padding: 15px; flex: 1;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div><h1 style="margin:0;">PVG</h1><small>SHANGHAI</small></div>
-                                <div style="text-align: center; color: var(--accent-peach);"><small>CX303<br>B777-300</small></div>
-                                <div style="text-align: right;"><h1 style="margin:0;">HKG</h1><small>HONG KONG</small></div>
+                        <div class="ticket-body">
+                            <div class="airport-row">
+                                <div>
+                                    <h1 class="airport-code">PVG</h1>
+                                    <small class="airport-name">SHANGHAI</small>
+                                </div>
+                                <div class="flight-code">
+                                    CX303<br>
+                                    B777-300
+                                </div>
+                                <div style="text-align:right;">
+                                    <h1 class="airport-code">HKG</h1>
+                                    <small class="airport-name">HONG KONG</small>
+                                </div>
                             </div>
                             <div class="journey-line">
-                                <span style="font-size: 1.2rem;">🌆</span>
-                                <span style="font-size: 1.2rem;">🛫</span>
-                                <span style="font-size: 1.2rem;">🏙️</span>
+                                <span>🌆</span>
+                                <span>🛫</span>
+                                <span>🏙️</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.85rem;">
-                                <span>27 MAY | 07:20</span>
-                                <span>PVG ➔ HKG</span>
+                            <div class="flight-time-row">
+                                <span>27 MAY<br>07:20</span>
+                                <span style="text-align:right;">PVG<br>→ HKG</span>
                             </div>
                         </div>
                         <div class="perforated-edge"></div>
@@ -631,13 +801,83 @@ body {
             <div id="day-selector"></div>
         </section>
 
+       <section id="view-disney" class="view">
+    <div class="hero" style="background: linear-gradient(135deg, #FF9AA2, #6A0572); color: white;">
+        <h1>🏰 迪士尼戰略總部</h1>
+        <p>上海迪士尼兩日攻略｜25–26 May</p>
+    </div>
+
+    <div class="card">
+        <h2 style="margin-top:0;">🕰️ 入園資料</h2>
+        <p><b>25/5/2026</b><br>
+        迪士尼樂園：08:30–21:30<br>
+        迪士尼小鎮：10:00–22:00</p>
+
+        <p><b>26/5/2026</b><br>
+        迪士尼樂園：08:30–21:30<br>
+        迪士尼小鎮：10:00–22:00</p>
+    </div>
+
+    <div class="priority-wave">
+        <span class="wave-tag wave-early">必玩設施 1｜上海限定</span>
+        <div class="ride-card">
+            <div>
+                <b style="font-size:1.1rem;">瘋狂動物城：熱力追蹤</b>
+                <span class="comparison-badge">類型：無軌乘騎遊樂設施</span>
+                <small>
+                    上海迪士尼限定設施。進入瘋狂動物城主題園區可能需要排隊，
+                    有點像 USJ Mario 園區；如購買 Fast Pass 則不用排園區入口隊。
+                    <br><br>
+                    Fast Pass：單項 ¥180／一位
+                </small>
+            </div>
+            <span class="vibe-meter">🦊🚓</span>
+        </div>
+        <img src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-att-hot-pursuit-hero-20240104_tcm1874-269561.jpg"
+             style="width:100%; border-radius:20px; margin-top:10px; box-shadow:var(--card-shadow);">
+    </div>
+
+    <div class="priority-wave">
+        <span class="wave-tag wave-chill">必玩設施 2｜飛行體驗</span>
+        <div class="ride-card">
+            <div>
+                <b style="font-size:1.1rem;">翱翔・飛越地平線</b>
+                <span class="comparison-badge">類型：上海迪士尼版 Soaring</span>
+                <small>
+                    飛越世界各地名勝的沉浸式飛行體驗。適合早上或使用 Fast Pass。
+                    <br><br>
+                    Fast Pass：單項 ¥180／一位
+                </small>
+            </div>
+            <span class="vibe-meter">🌍🪽</span>
+        </div>
+        <img src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-att-soaring-hero-new_tcm1874-114877.jpg"
+             style="width:100%; border-radius:20px; margin-top:10px; box-shadow:var(--card-shadow);">
+    </div>
+
+    <div class="priority-wave">
+        <span class="wave-tag wave-night">必玩設施 3｜沉浸式大作</span>
+        <div class="ride-card">
+            <div>
+                <b style="font-size:1.1rem;">加勒比海盜—沉落寶藏之戰</b>
+                <span class="comparison-badge">類型：5D 乘船設施</span>
+                <small>
+                    上海迪士尼代表性大型設施，結合乘船、投影、場景和特效。
+                    <br><br>
+                    Fast Pass：單項 ¥180／一位
+                </small>
+            </div>
+            <span class="vibe-meter">🏴‍☠️🌊</span>
+        </div>
+        <img src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-att-pirates-of-caribbean-hero-new_tcm1874-115031.jpg"
+             style="width:100%; border-radius:20px; margin-top:10px; box-shadow:var(--card-shadow);">
+    </div>
+</section>
         <section id="view-day" class="view">
             <div id="day-header"></div>
-
-            <div id="hotel-hub" style="display:none;">
+            <div id="hotel-hub" style="display:none; margin-top: -30px;">
                 <div class="bento-grid" id="hotel-bento"></div>
             </div>
-
             <div class="timeline" id="day-timeline"></div>
         </section>
 
@@ -649,7 +889,6 @@ body {
                     🍑 Peach Verified: SAFE TO EAT
                 </div>
             </div>
-
             <div class="lookbook-container" id="food-lookbook"></div>
         </section>
 
@@ -666,6 +905,7 @@ body {
 
     <nav class="bottom-bar">
         <button class="nav-item active" onclick="switchView('view-home', this)">🏠</button>
+        <button class="nav-item" onclick="switchView('view-disney', this)">🏰</button>
         <button class="nav-item" onclick="switchView('view-food', this)">🍜</button>
         <button class="nav-item" onclick="switchView('view-map', this)">📍</button>
     </nav>
@@ -858,6 +1098,29 @@ const foodRecs = [
     }
 ];
 
+const disneySnacks = [
+    {
+        name: "米奇鬆餅",
+        img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=500&q=80",
+        note: "甜食安全牌"
+    },
+    {
+        name: "炸雞 / 薯條",
+        img: "https://images.unsplash.com/photo-1562967916-eb82221dfb92?auto=format&fit=crop&w=500&q=80",
+        note: "不辣不海鮮"
+    },
+    {
+        name: "Cheesecake Factory",
+        img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=500&q=80",
+        note: "Disney Town 安全晚餐"
+    },
+    {
+        name: "爆谷",
+        img: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&w=500&q=80",
+        note: "排隊時補給"
+    }
+];
+
 const spots = [
     "Hong Kong International Airport",
     "Shanghai Pudong International Airport",
@@ -1017,6 +1280,18 @@ function renderMap() {
     `).join('');
 }
 
+function getHungryNow() {
+    const container = document.getElementById('radar-results');
+    container.innerHTML = disneySnacks.map(s => `
+        <div class="snack-card">
+            <img src="${s.img}">
+            <b style="font-size:0.85rem;">${s.name}</b>
+            <span class="safe-stamp">SAFE PICK ✓</span>
+            <small>${s.note}</small>
+        </div>
+    `).join('');
+}
+
 function flipTicket() {
     document.getElementById('ticket').classList.toggle('flipped');
 }
@@ -1051,7 +1326,6 @@ function switchView(viewId, btn) {
 
 function toggleDarkMode() {
     const body = document.body;
-
     if (body.getAttribute('data-theme') === 'dark') {
         body.removeAttribute('data-theme');
     } else {
