@@ -686,6 +686,52 @@ body {
 [data-theme='dark'] .card-back {
     background: #2A2A2A;
 }
+
+.disney-tabs, .park-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 0 20px 15px;
+    overflow-x: auto;
+}
+
+.disney-tab, .park-tab {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: white;
+    box-shadow: var(--card-shadow);
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.disney-tab.active, .park-tab.active {
+    background: var(--accent-peach);
+    color: white;
+}
+
+.disney-panel, .park-panel {
+    display: none;
+}
+
+.disney-panel.active, .park-panel.active {
+    display: block;
+}
+
+.disney-img {
+    width: 100%;
+    border-radius: 20px;
+    margin-top: 10px;
+    box-shadow: var(--card-shadow);
+}
+
+.note-list {
+    margin: 8px 0 0;
+    padding-left: 18px;
+    font-size: 0.85rem;
+    color: #777;
+    line-height: 1.6;
+}
+    
 </style>
 </head>
 
@@ -787,7 +833,7 @@ body {
                             </div>
                             <div class="flight-time-row">
                                 <span>27 MAY<br>07:20</span>
-                                <span style="text-align:right;">PVG<br>→ HKG</span>
+                                <span style="text-align:right;">Arrive<br>10:05</span>
                             </div>
                         </div>
                         <div class="perforated-edge"></div>
@@ -807,70 +853,253 @@ body {
         <p>上海迪士尼兩日攻略｜25–26 May</p>
     </div>
 
-    <div class="card">
-        <h2 style="margin-top:0;">🕰️ 入園資料</h2>
-        <p><b>25/5/2026</b><br>
-        迪士尼樂園：08:30–21:30<br>
-        迪士尼小鎮：10:00–22:00</p>
-
-        <p><b>26/5/2026</b><br>
-        迪士尼樂園：08:30–21:30<br>
-        迪士尼小鎮：10:00–22:00</p>
+    <div class="disney-tabs">
+        <button class="disney-tab active" onclick="switchDisneyTab('panel-park', this)">🎢 迪士尼樂園</button>
+        <button class="disney-tab" onclick="switchDisneyTab('panel-town', this)">🏘️ 迪士尼小鎮</button>
     </div>
 
-    <div class="priority-wave">
-        <span class="wave-tag wave-early">必玩設施 1｜上海限定</span>
-        <div class="ride-card">
-            <div>
-                <b style="font-size:1.1rem;">瘋狂動物城：熱力追蹤</b>
-                <span class="comparison-badge">類型：無軌乘騎遊樂設施</span>
-                <small>
-                    上海迪士尼限定設施。進入瘋狂動物城主題園區可能需要排隊，
-                    有點像 USJ Mario 園區；如購買 Fast Pass 則不用排園區入口隊。
-                    <br><br>
-                    Fast Pass：單項 ¥180／一位
-                </small>
-            </div>
-            <span class="vibe-meter">🦊🚓</span>
+    <div id="panel-park" class="disney-panel active">
+        <div class="card">
+            <h2 style="margin-top:0;">🕰️ 入園資料</h2>
+            <p><b>25/5/2026</b><br>
+            迪士尼樂園：08:30–21:30<br>
+            迪士尼小鎮：10:00–22:00</p>
+
+            <p><b>26/5/2026</b><br>
+            迪士尼樂園：08:30–21:30<br>
+            迪士尼小鎮：10:00–22:00</p>
         </div>
-        <img src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-att-hot-pursuit-hero-20240104_tcm1874-269561.jpg"
-             style="width:100%; border-radius:20px; margin-top:10px; box-shadow:var(--card-shadow);">
+
+        <div class="park-tabs">
+            <button class="park-tab active" onclick="switchParkTab('park-rides', this)">🎢 遊樂設施</button>
+            <button class="park-tab" onclick="switchParkTab('park-shows', this)">🎭 表演／巡遊／煙花</button>
+            <button class="park-tab" onclick="switchParkTab('park-food', this)">🍴 園內餐飲</button>
+            <button class="park-tab" onclick="switchParkTab('park-shopping', this)">🛍️ 購物／紀念品</button>
+        </div>
+
+        <div id="park-rides" class="park-panel active">
+            <div class="priority-wave">
+                <span class="wave-tag wave-early">必玩設施 1｜上海限定</span>
+                <div class="ride-card">
+                    <div>
+                        <b style="font-size:1.1rem;">瘋狂動物城：熱力追蹤</b>
+                        <span class="comparison-badge">類型：無軌乘騎遊樂設施</span>
+                        <ul class="note-list">
+                            <li>上海迪士尼限定設施。</li>
+                            <li>入瘋狂動物城主題園區會好似 USJ Mario 咁要排隊，但買 Fast Pass 就唔使排。</li>
+                            <li>Fast Pass：單項 ¥180／一位</li>
+                        </ul>
+                    </div>
+                    <span class="vibe-meter">🦊🚓</span>
+                </div>
+                <img class="disney-img" src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-att-hot-pursuit-hero-20240104_tcm1874-269561.jpg">
+            </div>
+
+            <div class="priority-wave">
+                <span class="wave-tag wave-chill">必玩設施 2｜飛行體驗</span>
+                <div class="ride-card">
+                    <div>
+                        <b style="font-size:1.1rem;">翱翔・飛越地平線</b>
+                        <span class="comparison-badge">類型：上海迪士尼版 Soaring</span>
+                        <ul class="note-list">
+                            <li>飛越世界各地名勝的沉浸式飛行體驗。</li>
+                            <li>Fast Pass：單項 ¥180／一位</li>
+                        </ul>
+                    </div>
+                    <span class="vibe-meter">🌍🪽</span>
+                </div>
+                <img class="disney-img" src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-att-soaring-hero-new_tcm1874-114877.jpg">
+            </div>
+
+            <div class="priority-wave">
+                <span class="wave-tag wave-night">必玩設施 3｜沉浸式大作</span>
+                <div class="ride-card">
+                    <div>
+                        <b style="font-size:1.1rem;">加勒比海盜—沉落寶藏之戰</b>
+                        <span class="comparison-badge">類型：5D 乘船設施</span>
+                        <ul class="note-list">
+                            <li>上海迪士尼代表性大型設施。</li>
+                            <li>結合乘船、投影、場景和特效。</li>
+                            <li>Fast Pass：單項 ¥180／一位</li>
+                        </ul>
+                    </div>
+                    <span class="vibe-meter">🏴‍☠️🌊</span>
+                </div>
+                <img class="disney-img" src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-att-pirates-of-caribbean-hero-new_tcm1874-115031.jpg">
+            </div>
+        </div>
+
+        <div id="park-shows" class="park-panel">
+            <div class="priority-wave">
+                <span class="wave-tag wave-early">表演 1</span>
+                <div class="ride-card">
+                    <div>
+                        <b>風暴來臨﹕傑克船長之驚天特技大冒險</b>
+                        <span class="comparison-badge">時長：30分鐘</span>
+                        <ul class="note-list">
+                            <li>時間：10:00 / 10:40 / 11:10 / 11:50 / 13:00 / 13:40 / 14:10 / 14:40 / 15:10 / 15:50 / 16:30 / 17:00 / 17:30 / 18:00 / 18:40</li>
+                            <li>Fast Pass：單項 ¥180／一位</li>
+                        </ul>
+                    </div>
+                    <span class="vibe-meter">🏴‍☠️</span>
+                </div>
+                <img class="disney-img" src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-ent-eye-of-storm-captain-jacks-spectacular-hero-new_tcm1874-115042.jpg">
+            </div>
+
+            <div class="priority-wave">
+                <span class="wave-tag wave-chill">表演 2</span>
+                <div class="ride-card">
+                    <div>
+                        <b>冰雪奇緣：歡唱盛會</b>
+                        <span class="comparison-badge">時長：20分鐘</span>
+                        <ul class="note-list">
+                            <li>時間：10:00 / 10:45 / 11:30 / 12:15 / 13:15 / 14:00 / 14:45 / 15:30 / 16:30 / 17:15 / 18:00 / 18:45</li>
+                            <li>Fast Pass：單項 ¥180／一位</li>
+                        </ul>
+                    </div>
+                    <span class="vibe-meter">❄️</span>
+                </div>
+                <img class="disney-img" src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-ent-frozen-sing-along-celebration-hero-formal-v1_tcm1874-198172.jpg">
+            </div>
+
+            <div class="priority-wave">
+                <span class="wave-tag wave-night">表演 3</span>
+                <div class="ride-card">
+                    <div>
+                        <b>米奇妙遊童話書</b>
+                        <span class="comparison-badge">時長：28分鐘</span>
+                        <ul class="note-list">
+                            <li>時間：9:30 / 10:30 / 11:30 / 12:45 / 13:50 / 14:55 / 16:30 / 17:35 / 18:40</li>
+                            <li>Fast Pass：單項 ¥180／一位</li>
+                            <li>同香港迪士尼果個好似。</li>
+                        </ul>
+                    </div>
+                    <span class="vibe-meter">📖</span>
+                </div>
+                <img class="disney-img" src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-ent-mickeys-storybook-adventure-hero-v2_tcm1874-223146.png">
+            </div>
+
+            <div class="priority-wave">
+                <span class="wave-tag wave-early">表演 4</span>
+                <div class="ride-card">
+                    <div>
+                        <b>“奇妙之心”城堡秀</b>
+                        <span class="comparison-badge">時長：25分鐘</span>
+                        <ul class="note-list">
+                            <li>時間：10:15 / 13:05 / 14:50 / 16:35</li>
+                            <li>10周年主題。</li>
+                        </ul>
+                    </div>
+                    <span class="vibe-meter">🏰</span>
+                </div>
+                <img class="disney-img" src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/the-heart-of-magic-hero_tcm1874-288951.jpg">
+            </div>
+
+            <div class="priority-wave">
+                <span class="wave-tag wave-chill">巡遊 1</span>
+                <div class="ride-card">
+                    <div>
+                        <b>「友誼號」：達菲和朋友們的特別巡遊</b>
+                        <ul class="note-list">
+                            <li>時間：12:05 / 15:35</li>
+                            <li>同米奇童話專列連住。</li>
+                            <li>有齊七寶。</li>
+                            <li>10周年主題。</li>
+                        </ul>
+                    </div>
+                    <span class="vibe-meter">🧸</span>
+                </div>
+                <img class="disney-img" src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-ent-friendship-duffy-and-friends-special-pre-parade-hero_tcm1874-288952.jpg">
+            </div>
+
+            <div class="priority-wave">
+                <span class="wave-tag wave-chill">巡遊 2</span>
+                <div class="ride-card">
+                    <div>
+                        <b>米奇童話專列</b>
+                        <span class="comparison-badge">時長：14分鐘</span>
+                        <ul class="note-list">
+                            <li>時間：12:15 / 15:45</li>
+                            <li>同「友誼號」連住。</li>
+                            <li>10周年主題。</li>
+                        </ul>
+                    </div>
+                    <span class="vibe-meter">🚂</span>
+                </div>
+                <img class="disney-img" src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-ent-mickeys-storybook-express-glimmer-hero_tcm1874-289204.png">
+            </div>
+
+            <div class="priority-wave">
+                <span class="wave-tag wave-chill">巡遊 3</span>
+                <div class="ride-card">
+                    <div>
+                        <b>迪士尼彩色慶典﹕街頭派對！</b>
+                        <span class="comparison-badge">時長：14分鐘</span>
+                        <ul class="note-list">
+                            <li>時間：10:45 / 14:00 / 17:00</li>
+                            <li>有貝貝、芒果。</li>
+                            <li>10周年主題。</li>
+                        </ul>
+                    </div>
+                    <span class="vibe-meter">🎉</span>
+                </div>
+                <img class="disney-img" src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/new-shdr-ent-a-street-party-2025-hero_tcm1874-277453.jpg">
+            </div>
+
+            <div class="priority-wave">
+                <span class="wave-tag wave-night">煙花／夜間表演 1</span>
+                <div class="ride-card">
+                    <div>
+                        <b>奇夢之光幻影秀</b>
+                        <ul class="note-list">
+                            <li>時間：20:00 / 21:15</li>
+                            <li>同「奇妙在身邊：10歲生日特別歡慶」連住。</li>
+                            <li>10周年主題。</li>
+                        </ul>
+                    </div>
+                    <span class="vibe-meter">🎆</span>
+                </div>
+                <img class="disney-img" src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-ent-new-nts-hero_tcm1874-220570.jpg">
+            </div>
+
+            <div class="priority-wave">
+                <span class="wave-tag wave-night">煙花／夜間表演 2</span>
+                <div class="ride-card">
+                    <div>
+                        <b>奇妙在身邊：10歲生日特別歡慶</b>
+                        <ul class="note-list">
+                            <li>時間：20:15 / 21:30</li>
+                            <li>同「奇夢之光幻影秀」連住。</li>
+                            <li>10周年主題。</li>
+                        </ul>
+                    </div>
+                    <span class="vibe-meter">✨</span>
+                </div>
+                <img class="disney-img" src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-ent-magic-together-hero-1_tcm1874-289031.jpg">
+            </div>
+        </div>
+
+        <div id="park-food" class="park-panel">
+            <div class="card">
+                <h2 style="margin-top:0;">🍴 園內餐飲</h2>
+                <p>稍後補充。</p>
+            </div>
+        </div>
+
+        <div id="park-shopping" class="park-panel">
+            <div class="card">
+                <h2 style="margin-top:0;">🛍️ 購物／紀念品</h2>
+                <p>稍後補充。</p>
+            </div>
+        </div>
     </div>
 
-    <div class="priority-wave">
-        <span class="wave-tag wave-chill">必玩設施 2｜飛行體驗</span>
-        <div class="ride-card">
-            <div>
-                <b style="font-size:1.1rem;">翱翔・飛越地平線</b>
-                <span class="comparison-badge">類型：上海迪士尼版 Soaring</span>
-                <small>
-                    飛越世界各地名勝的沉浸式飛行體驗。適合早上或使用 Fast Pass。
-                    <br><br>
-                    Fast Pass：單項 ¥180／一位
-                </small>
-            </div>
-            <span class="vibe-meter">🌍🪽</span>
+    <div id="panel-town" class="disney-panel">
+        <div class="card">
+            <h2 style="margin-top:0;">🏘️ 迪士尼小鎮</h2>
+            <p><b>開放時間：</b>10:00–22:00</p>
+            <p>稍後可加入 Disney Town 晚餐、商店、拍照位和路線。</p>
         </div>
-        <img src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-att-soaring-hero-new_tcm1874-114877.jpg"
-             style="width:100%; border-radius:20px; margin-top:10px; box-shadow:var(--card-shadow);">
-    </div>
-
-    <div class="priority-wave">
-        <span class="wave-tag wave-night">必玩設施 3｜沉浸式大作</span>
-        <div class="ride-card">
-            <div>
-                <b style="font-size:1.1rem;">加勒比海盜—沉落寶藏之戰</b>
-                <span class="comparison-badge">類型：5D 乘船設施</span>
-                <small>
-                    上海迪士尼代表性大型設施，結合乘船、投影、場景和特效。
-                    <br><br>
-                    Fast Pass：單項 ¥180／一位
-                </small>
-            </div>
-            <span class="vibe-meter">🏴‍☠️🌊</span>
-        </div>
-        <img src="https://static.shanghaidisneyresort.com/tridion/prod/zh-cn/system/images/shdr-att-pirates-of-caribbean-hero-new_tcm1874-115031.jpg"
-             style="width:100%; border-radius:20px; margin-top:10px; box-shadow:var(--card-shadow);">
     </div>
 </section>
         <section id="view-day" class="view">
@@ -1338,6 +1567,22 @@ function updateProgress(val) {
     document.getElementById('progress-text').innerText = val;
 }
 
+    function switchDisneyTab(panelId, btn) {
+    document.querySelectorAll('.disney-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(panelId).classList.add('active');
+
+    document.querySelectorAll('.disney-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+function switchParkTab(panelId, btn) {
+    document.querySelectorAll('.park-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(panelId).classList.add('active');
+
+    document.querySelectorAll('.park-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+    
 init();
 </script>
 </body>
