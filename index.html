@@ -856,6 +856,51 @@ body {
     background: #E0F7FA;
     color: #00ACC1;
 }
+
+.image-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 99999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.image-lightbox.active {
+    display: flex;
+}
+
+.image-lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+.lightbox-close {
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    color: white;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    z-index: 100000;
+}
+
+.favorite-btn {
+    border: none;
+    background: none;
+    font-size: 1.35rem;
+    cursor: pointer;
+}
+
+.favorite-btn.active {
+    color: #FF6B6B;
+}
+    
     
 </style>
 </head>
@@ -1367,7 +1412,8 @@ const travelData = [
             ]
         },
         events: [
-            { time: "08:00", type: "🎢", title: "迪士尼早享入園", desc: "入住樂園酒店可提早入園，建議先衝熱門項目。", gmaps: "https://maps.google.com/?q=Shanghai+Disneyland" },
+            { time: "08:00", type: "🎢", title: "迪士尼早享入園", desc: "Happy Entry 提早1個鐘入園", gmaps: "https://maps.google.com/?q=Shanghai+Disneyland" },
+            { time: "12:00", type: "🍽️", title: "午餐：上海宮宴", desc: "建議 11:00–11:30 到達，預留換裝、拍照及入座時間。", gmaps: "https://maps.google.com/?q=Shanghai+Gongyan"},
             { time: "18:00", type: "🍽️", title: "晚餐：芝樂坊（Disney Town）", desc: "高熱量炸雞意粉與起司蛋糕，無海鮮安全牌。", gmaps: "https://maps.google.com/?q=The+Cheesecake+Factory+Disney+Town" }
         ]
     },
@@ -1903,15 +1949,18 @@ container.innerHTML = filteredItems.map((item, index) => {
         return `
             <div class="ig-food-card" id="food-card-${filterType}-${index}">
                 <div class="ig-food-header">
-                    <span>${item.name}</span>
-                    <span class="ig-label ${item.type === '餐廳' ? 'restaurant' : 'snack'}">
-    ${item.type === '餐廳' ? '🍽️ 餐廳' : '🍿 小食'}
-</span>
-                </div>
+    <span>${item.name}</span>
+    <div style="display:flex; align-items:center; gap:8px;">
+        <button class="favorite-btn" onclick="toggleFavorite(event, '${item.name}', this)">♡</button>
+        <span class="ig-label ${item.type === '餐廳' ? 'restaurant' : 'snack'}">
+            ${item.type === '餐廳' ? '🍽️ 餐廳' : '🍿 小食'}
+        </span>
+    </div>
+</div>
 
                 <div class="ig-carousel">
-                    ${visibleImages.map(src => `<img src="${src}" loading="lazy">`).join("")}
-                    ${hiddenImages.map(src => `<img class="hidden-photo" src="${src}" loading="lazy">`).join("")}
+                    ${visibleImages.map(src => `<img src="${src}" loading="lazy" onclick="openLightbox('${src}')">`).join("")}
+${hiddenImages.map(src => `<img class="hidden-photo" src="${src}" loading="lazy" onclick="openLightbox('${src}')">`).join("")}
                 </div>
 
                 <div class="ig-dots">
@@ -1946,8 +1995,41 @@ function filterDisneyFood(type, btn) {
     btn.classList.add('active');
     renderDisneyFoodGallery(type);
 }
+
+function openLightbox(src) {
+    const lightbox = document.getElementById("image-lightbox");
+    const img = document.getElementById("lightbox-img");
+    img.src = src;
+    lightbox.classList.add("active");
+}
+
+function closeLightbox() {
+    document.getElementById("image-lightbox").classList.remove("active");
+}
+
+function toggleFavorite(event, name, btn) {
+    event.stopPropagation();
+
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+    if (favorites.includes(name)) {
+        favorites = favorites.filter(item => item !== name);
+        btn.innerText = "♡";
+        btn.classList.remove("active");
+    } else {
+        favorites.push(name);
+        btn.innerText = "♥";
+        btn.classList.add("active");
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+}
     
 init();
 </script>
+    <div class="image-lightbox" id="image-lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">×</button>
+    <img id="lightbox-img" src="">
+</div>
 </body>
 </html>
