@@ -818,6 +818,44 @@ body {
 .ig-food-card.expanded .hidden-photo {
     display: block;
 }
+
+.food-filter-bar {
+    display: flex;
+    gap: 8px;
+    padding: 0 20px 15px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.food-filter-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.food-filter-btn {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: white;
+    box-shadow: var(--card-shadow);
+    font-weight: 700;
+    color: var(--text-dark);
+    cursor: pointer;
+}
+
+.food-filter-btn.active {
+    background: var(--accent-peach);
+    color: white;
+}
+
+.ig-label.restaurant {
+    background: #FFE4E1;
+    color: #FF6B6B;
+}
+
+.ig-label.snack {
+    background: #E0F7FA;
+    color: #00ACC1;
+}
     
 </style>
 </head>
@@ -1166,10 +1204,15 @@ body {
             </div>
         </div>
 
-        <div id="park-food" class="park-panel">
+<div id="park-food" class="park-panel">
     <div class="card">
         <h2 style="margin-top:0;">🍴 園內餐飲</h2>
-        <p>餐廳與小食以 IG 風滑動圖展示，可左右滑動查看餐牌。</p>
+    </div>
+
+    <div class="food-filter-bar">
+        <button class="food-filter-btn active" onclick="filterDisneyFood('全部', this)">全部</button>
+        <button class="food-filter-btn" onclick="filterDisneyFood('餐廳', this)">🍽️ 餐廳</button>
+        <button class="food-filter-btn" onclick="filterDisneyFood('小食', this)">🍿 小食</button>
     </div>
 
     <div class="ig-food-section" id="disney-food-gallery"></div>
@@ -1845,19 +1888,25 @@ const disneyFoodGallery = [
     }
 ];
 
-function renderDisneyFoodGallery() {
+function renderDisneyFoodGallery(filterType = "全部") {
     const container = document.getElementById("disney-food-gallery");
     if (!container) return;
 
-    container.innerHTML = disneyFoodGallery.map((item, index) => {
+    const filteredItems = filterType === "全部"
+    ? disneyFoodGallery
+    : disneyFoodGallery.filter(item => item.type === filterType);
+
+container.innerHTML = filteredItems.map((item, index) => {
         const visibleImages = item.expandable ? item.images.slice(0, 5) : item.images;
         const hiddenImages = item.expandable ? item.images.slice(5) : [];
 
         return `
-            <div class="ig-food-card" id="food-card-${index}">
+            <div class="ig-food-card" id="food-card-${filterType}-${index}">
                 <div class="ig-food-header">
                     <span>${item.name}</span>
-                    <span class="ig-label">${item.type}</span>
+                    <span class="ig-label ${item.type === '餐廳' ? 'restaurant' : 'snack'}">
+    ${item.type === '餐廳' ? '🍽️ 餐廳' : '🍿 小食'}
+</span>
                 </div>
 
                 <div class="ig-carousel">
@@ -1870,7 +1919,7 @@ function renderDisneyFoodGallery() {
                 </div>
 
                 ${item.expandable ? `
-                    <button class="expand-btn" onclick="toggleFoodGallery(event, 'food-card-${index}', this)">
+                    <button class="expand-btn" onclick="toggleFoodGallery(event, 'food-card-${filterType}-${index}', this)">
                         展開全部 ${item.images.length} 張餐牌
                     </button>
                 ` : ""}
@@ -1890,6 +1939,12 @@ function toggleFoodGallery(event, cardId, btn) {
     } else {
         btn.innerText = "展開全部餐牌";
     }
+}
+
+function filterDisneyFood(type, btn) {
+    document.querySelectorAll('.food-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderDisneyFoodGallery(type);
 }
     
 init();
