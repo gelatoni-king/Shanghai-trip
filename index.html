@@ -731,6 +731,92 @@ body {
     color: #777;
     line-height: 1.6;
 }
+
+.ig-food-section {
+    padding: 0 20px;
+}
+
+.ig-food-card {
+    background: white;
+    border-radius: 24px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 22px;
+    overflow: hidden;
+}
+
+[data-theme='dark'] .ig-food-card {
+    background: #2A2A2A;
+}
+
+.ig-food-header {
+    padding: 14px 16px;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ig-label {
+    font-size: 0.7rem;
+    background: var(--primary-yellow);
+    color: #4A4A4A;
+    padding: 3px 9px;
+    border-radius: 20px;
+}
+
+.ig-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.ig-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.ig-carousel img {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    scroll-snap-align: start;
+    background: #f5f5f5;
+}
+
+.ig-dots {
+    text-align: center;
+    padding: 9px 0 13px;
+}
+
+.ig-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #ddd;
+    border-radius: 50%;
+    margin: 0 3px;
+}
+
+.expand-btn {
+    width: calc(100% - 32px);
+    margin: 0 16px 16px;
+    border: none;
+    background: var(--accent-peach);
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.hidden-photo {
+    display: none;
+}
+
+.ig-food-card.expanded .hidden-photo {
+    display: block;
+}
     
 </style>
 </head>
@@ -1080,11 +1166,13 @@ body {
         </div>
 
         <div id="park-food" class="park-panel">
-            <div class="card">
-                <h2 style="margin-top:0;">🍴 園內餐飲</h2>
-                <p>稍後補充。</p>
-            </div>
-        </div>
+    <div class="card">
+        <h2 style="margin-top:0;">🍴 園內餐飲</h2>
+        <p>餐廳與小食以 IG 風滑動圖展示，可左右滑動查看餐牌。</p>
+    </div>
+
+    <div class="ig-food-section" id="disney-food-gallery"></div>
+</div>
 
         <div id="park-shopping" class="park-panel">
             <div class="card">
@@ -1376,6 +1464,7 @@ function init() {
     renderHome();
     renderFoodLookbook();
     renderMap();
+    renderDisneyFoodGallery();
     setupParallax();
 
     setTimeout(() => {
@@ -1581,6 +1670,225 @@ function switchParkTab(panelId, btn) {
 
     document.querySelectorAll('.park-tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+}
+
+const disneyFoodGallery = [
+    {
+        type: "餐廳",
+        name: "達菲好友歡慶堂",
+        images: [
+            "images/duffy_and_friends_celebration_hall_page-0001.jpg",
+            "images/duffy_and_friends_celebration_hall_page-0002.jpg",
+            "images/duffy_and_friends_celebration_hall_page-0003.jpg"
+        ]
+    },
+    {
+        type: "餐廳",
+        name: "皮諾丘鄉村廚房",
+        images: [
+            "images/pinocchio_village_kitchen_page-0001.jpg",
+            "images/pinocchio_village_kitchen_page-0002.jpg",
+            "images/pinocchio_village_kitchen_page-0003.jpg"
+        ]
+    },
+    {
+        type: "餐廳",
+        name: "老藤樹食棧",
+        images: [
+            "images/tangled_tree_tavern_page-0001.jpg",
+            "images/tangled_tree_tavern_page-0002.jpg",
+            "images/tangled_tree_tavern_page-0003.jpg"
+        ]
+    },
+    {
+        type: "餐廳",
+        name: "星露台餐廳",
+        images: [
+            "images/stargazer_grill_page-0001.jpg",
+            "images/stargazer_grill_page-0002.jpg",
+            "images/stargazer_grill_page-0003.jpg"
+        ]
+    },
+    {
+        type: "餐廳",
+        name: "巴波薩燒烤",
+        images: [
+            "images/barbossas_bounty_compressed_page-0001.jpg",
+            "images/barbossas_bounty_compressed_page-0002.jpg",
+            "images/barbossas_bounty_compressed_page-0003.jpg"
+        ]
+    },
+    {
+        type: "餐廳",
+        name: "米奇好伙伴美味集市",
+        images: [
+            "images/mickey_n_pals_market_cafe_page-0001.jpg",
+            "images/mickey_n_pals_market_cafe_page-0002.jpg",
+            "images/mickey_n_pals_market_cafe_page-0003.jpg"
+        ]
+    },
+    {
+        type: "餐廳",
+        name: "皇家宴會廳",
+        images: [
+            "images/royal_banquet_hall_page-0001.jpg",
+            "images/royal_banquet_hall_page-0002.jpg",
+            "images/royal_banquet_hall_page-0003.jpg",
+            "images/royal_banquet_hall_page-0004.jpg",
+            "images/royal_banquet_hall_page-0005.jpg"
+        ]
+    },
+    {
+        type: "餐廳",
+        name: "唐老鴨歡享小廚",
+        expandable: true,
+        images: [
+            "images/donalds_dine_n_delights_compressed_page-0001.jpg",
+            "images/donalds_dine_n_delights_compressed_page-0002.jpg",
+            "images/donalds_dine_n_delights_compressed_page-0003.jpg",
+            "images/donalds_dine_n_delights_compressed_page-0004.jpg",
+            "images/donalds_dine_n_delights_compressed_page-0005.jpg",
+            "images/donalds_dine_n_delights_compressed_page-0006.jpg",
+            "images/donalds_dine_n_delights_compressed_page-0007.jpg",
+            "images/donalds_dine_n_delights_compressed_page-0008.jpg",
+            "images/donalds_dine_n_delights_compressed_page-0009.jpg",
+            "images/donalds_dine_n_delights_compressed_page-00010.jpg",
+            "images/donalds_dine_n_delights_compressed_page-00011.jpg",
+            "images/donalds_dine_n_delights_compressed_page-00012.jpg",
+            "images/donalds_dine_n_delights_compressed_page-00013.jpg",
+            "images/donalds_dine_n_delights_compressed_page-00014.jpg",
+            "images/donalds_dine_n_delights_compressed_page-00015.jpg",
+            "images/donalds_dine_n_delights_compressed_page-00016.jpg",
+            "images/donalds_dine_n_delights_compressed_page-00017.jpg",
+            "images/donalds_dine_n_delights_compressed_page-00018.jpg",
+            "images/donalds_dine_n_delights_compressed_page-00019.jpg",
+            "images/donalds_dine_n_delights_compressed_page-00020.jpg"
+        ]
+    },
+    {
+        type: "小食",
+        name: "琦妙美味屋",
+        images: [
+            "images/cookieann_bakery_cafe_page-0001.jpg",
+            "images/cookieann_bakery_cafe_page-0002.jpg"
+        ]
+    },
+    {
+        type: "小食",
+        name: "帕帕里諾冰激凌",
+        images: [
+            "images/il_paperino_compressed_page-0001.jpg",
+            "images/il_paperino_compressed_page-0002.jpg",
+            "images/il_paperino_compressed_page-0003.jpg"
+        ]
+    },
+    {
+        type: "小食",
+        name: "草莓熊餐盒",
+        images: ["images/lotso_lunch_box.jpg"]
+    },
+    {
+        type: "小食",
+        name: "夢幻世界米奇手包",
+        images: ["images/fantasyland_mickey_mouse_hand_bun_outdoor_vending_cart.jpg"]
+    },
+    {
+        type: "小食",
+        name: "大象甜品店",
+        images: ["images/jumbeauxs_cafe.jpg"]
+    },
+    {
+        type: "小食",
+        name: "動物城食集",
+        images: ["images/zootopia_market.jpg"]
+    },
+    {
+        type: "小食",
+        name: "船長小灶",
+        images: ["images/captains_kettle.jpg"]
+    },
+    {
+        type: "小食",
+        name: "旋味美食站",
+        images: ["images/star_trail_snacks.jpg"]
+    },
+    {
+        type: "小食",
+        name: "花栗鼠小廚",
+        images: ["images/chipmunk_snacks.jpg"]
+    },
+    {
+        type: "小食",
+        name: "土圖嘉風味",
+        images: ["images/tortuga_treats.jpg"]
+    },
+    {
+        type: "小食",
+        name: "奇奇蒂蒂小食",
+        images: ["images/chip_n_dales_treehouse_treats.jpg"]
+    },
+    {
+        type: "小食",
+        name: "提摩太小吃",
+        images: ["images/timothys_treats.jpg"]
+    },
+    {
+        type: "小食",
+        name: "吟遊風味",
+        images: ["images/troubadour_treats.jpg"]
+    },
+    {
+        type: "小食",
+        name: "海怪小吃",
+        images: ["images/the_snackin_kraken.jpg"]
+    }
+];
+
+function renderDisneyFoodGallery() {
+    const container = document.getElementById("disney-food-gallery");
+    if (!container) return;
+
+    container.innerHTML = disneyFoodGallery.map((item, index) => {
+        const visibleImages = item.expandable ? item.images.slice(0, 5) : item.images;
+        const hiddenImages = item.expandable ? item.images.slice(5) : [];
+
+        return `
+            <div class="ig-food-card" id="food-card-${index}">
+                <div class="ig-food-header">
+                    <span>${item.name}</span>
+                    <span class="ig-label">${item.type}</span>
+                </div>
+
+                <div class="ig-carousel">
+                    ${visibleImages.map(src => `<img src="${src}" loading="lazy">`).join("")}
+                    ${hiddenImages.map(src => `<img class="hidden-photo" src="${src}" loading="lazy">`).join("")}
+                </div>
+
+                <div class="ig-dots">
+                    ${item.images.map(() => `<span class="ig-dot"></span>`).join("")}
+                </div>
+
+                ${item.expandable ? `
+                    <button class="expand-btn" onclick="toggleFoodGallery(event, 'food-card-${index}', this)">
+                        展開全部 ${item.images.length} 張餐牌
+                    </button>
+                ` : ""}
+            </div>
+        `;
+    }).join("");
+}
+
+function toggleFoodGallery(event, cardId, btn) {
+    event.stopPropagation();
+
+    const card = document.getElementById(cardId);
+    card.classList.toggle("expanded");
+
+    if (card.classList.contains("expanded")) {
+        btn.innerText = "收起部分餐牌";
+    } else {
+        btn.innerText = "展開全部餐牌";
+    }
 }
     
 init();
