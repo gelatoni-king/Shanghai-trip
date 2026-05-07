@@ -900,6 +900,23 @@ body {
 .favorite-btn.active {
     color: #FF6B6B;
 }
+
+.progress-container {
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,0.35);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: white;
+    border-radius: 20px;
+    transition: width 1s ease;
+}
     
     
 </style>
@@ -1741,8 +1758,16 @@ function toggleDarkMode() {
 }
 
 function updateProgress(val) {
-    document.getElementById('main-progress').style.width = val + '%';
-    document.getElementById('progress-text').innerText = val;
+    const bar = document.getElementById('main-progress');
+    const text = document.getElementById('progress-text');
+
+    if (bar) {
+        bar.style.width = val + '%';
+    }
+
+    if (text) {
+        text.innerText = val;
+    }
 }
 
     function switchDisneyTab(panelId, btn) {
